@@ -11,11 +11,11 @@ Gtk2::Ex::Email::Compose - Presents a email compose window.
 
 =head1 VERSION
 
-Version 0.0.0
+Version 0.1.0
 
 =cut
 
-our $VERSION = '0.0.0';
+our $VERSION = '0.1.0';
 
 =head1 SYNOPSIS
 
@@ -149,6 +149,34 @@ sub getAttachmentVBox{
 	return $self->{AAnotebook}->getAttachmentVBox;
 }
 
+=head2 getBody
+
+This gets the body.
+
+    my $body=$ecw->getBody;
+
+=cut
+
+sub getBody{
+	my $self=$_[0];
+
+	return $self->{gui}{bodyBuffer}->get_text;
+}
+
+=head2 getSubject
+
+This gets the subject.
+
+    my $subject=$ecw->getSubject;
+
+=cut
+
+sub getSubject{
+	my $self=$_[0];
+	
+	return 	$self->{gui}{subject}->get_text;
+}
+
 =head2 setAddressbookCB
 
 This sets the callback for when the addressbook button is clicked.
@@ -174,6 +202,28 @@ sub setAddressbookCB{
 
 	$self->{gui}{close}->signal_connect(clicked=>$callback, $data);
 
+}
+
+=head2 setBody
+
+This sets the body.
+
+One arguement is taken and that is the body
+to set. If it is not defined, '' will be used.
+
+    $ecw->setBody($body);
+
+=cut
+
+sub setBody{
+	my $self=$_[0];
+	my $text=$_[1];
+
+	if (!defined($text)) {
+		$text='';
+	}
+
+	return 	$self->{gui}{bodyBuffer}->set_text($text);
 }
 
 =head2 setCloseCB
@@ -284,6 +334,30 @@ sub setSpellcheckCB{
 
 }
 
+=head2 setSubject
+
+This sets the subject.
+
+One arguement is taken and that is the subject
+to set. If it is not defined, '' will be used.
+
+    my $subject=$ecw->getSubject('some subject');
+
+=cut
+
+sub setSubject{
+	my $self=$_[0];
+	my $text=$_[1];
+
+	if (!defined($text)) {
+		$text='';
+	}
+
+	$self->{gui}{subject}->set_text($text);
+
+	return 1;
+}
+
 =head2 window
 
 This builds the compose window and returns a
@@ -337,7 +411,7 @@ to pass to Gtk2::Ex::Email::AttachmentVBox->vbox.
 
 If this is defined, the subject will be set to it.
 
-=head2 title
+=head4 title
 
 The window title.
 
